@@ -5,8 +5,8 @@ if [[ $# > 0 ]]; then
     mysql --user=$1 --password=$2 -s -N -e "DROP FUNCTION http_post;"
     
     sql_result=$(mysql --user=$1 --password=$2 -s -N -e "SHOW VARIABLES LIKE 'plugin_dir';")
-    plugin_dir=$(cut -d" " -f2 <<< $sql_result)
-    rm $plugin_dir"http.so"
+    plugin_dir=$(awk '{ print $2 }' <<< $sql_result)
+    sudo rm $plugin_dir"http.so"
 
     echo "Uninstall Success"
 else
